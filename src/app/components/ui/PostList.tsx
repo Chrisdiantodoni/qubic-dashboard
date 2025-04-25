@@ -21,7 +21,7 @@ interface PostListProps {
   users: User[];
 }
 
-export function PostList({ posts, users }: PostListProps) {
+export function PostList({ posts }: PostListProps) {
   const [search, setSearch] = useState<string>("");
   // Gabungkan post dengan user-nya
   const filteredPostWithUsers = useMemo(() => {
@@ -34,7 +34,7 @@ export function PostList({ posts, users }: PostListProps) {
         user?.username.toLowerCase().includes(lowerSearch)
       );
     });
-  }, [posts, users, search]);
+  }, [posts, search]);
 
   return (
     <>

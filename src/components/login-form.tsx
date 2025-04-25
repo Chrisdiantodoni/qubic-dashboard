@@ -42,6 +42,7 @@ export function LoginForm({
   const handleLogin = async (data: FormData) => {
     setIsLoading(true);
     const res = await loginUser(data);
+    setIsLoading(false);
     toast(res?.message);
   };
 
