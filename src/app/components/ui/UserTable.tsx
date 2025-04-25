@@ -14,7 +14,7 @@ import { User } from "@/app/(dashboard)/user/action";
 import { DataTable } from "@/components/data-table";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Eye } from "lucide-react";
+import { Eye, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface UserTableProps {
@@ -27,6 +27,13 @@ export default function UserTable({ users }: UserTableProps) {
   const [pageSize, setPageSize] = useState<number>(10); // Default page size
   const [currentPage, setCurrentPage] = useState<number>(1); // Default page 1
   const [filteredUsers, setFilteredUsers] = useState<User[]>(users); // Users after search filter
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "asc" | "desc" | undefined;
+  }>({
+    key: "",
+    direction: undefined,
+  });
 
   // Filtering users based on search input
   const filterUsers = (searchQuery: string) => {
@@ -47,13 +54,6 @@ export default function UserTable({ users }: UserTableProps) {
     setFilteredUsers(filterUsers(searchQuery)); // Filter users when search query changes
   };
 
-  // Paginate data based on current page and page size
-  const paginatedUsers = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    return filteredUsers.slice(startIndex, endIndex); // Slice data for current page
-  }, [currentPage, pageSize, filteredUsers]);
-
   // Handle page change
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -65,10 +65,45 @@ export default function UserTable({ users }: UserTableProps) {
     setCurrentPage(1); // Reset to page 1 when page size changes
   };
 
-  const handleViewDetail = (user: User) => {
-    const dataString = encodeURIComponent(JSON.stringify(user));
-    router.push(`/user/${user.id}?user=${dataString}`);
+  const handleViewDetail = (user: User, type: string) => {
+    if (type == "view") {
+      router.push(`/user/${user.id}`);
+    } else {
+      router.push(`/user/${user.id}/edit`);
+    }
   };
+  const handleSortChange = (column: string) => {
+    let direction: "asc" | "desc" = "asc";
+
+    if (sortConfig.key === column && sortConfig.direction === "asc") {
+      direction = "desc"; // If already ascending, change to descending
+    }
+
+    setSortConfig({ key: column, direction });
+  };
+
+  // Sorting the filtered users based on current sortConfig
+  const sortedUsers = useMemo(() => {
+    if (sortConfig.key) {
+      const sorted = [...filteredUsers].sort((a, b) => {
+        const aValue = a[sortConfig.key as keyof User];
+        const bValue = b[sortConfig.key as keyof User];
+
+        if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+        if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+        return 0;
+      });
+      return sorted;
+    }
+    return filteredUsers;
+  }, [filteredUsers, sortConfig]);
+
+  // Paginate data based on current page and page size
+  const paginatedUsers = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return sortedUsers.slice(startIndex, endIndex); // Slice data for current page
+  }, [currentPage, pageSize, sortedUsers]);
 
   return (
     <div>
@@ -102,27 +137,42 @@ export default function UserTable({ users }: UserTableProps) {
       </div>
       <div>
         <DataTable
-          columns={columns}
+          columns={columns.map((col) => ({
+            ...col,
+            header: (
+              <div
+                className="flex items-center gap-2 cursor-pointer"
+                onClick={() => col.sortable && handleSortChange(col.accessor)}
+              >
+                <span>{col.header}</span>
+                {col.sortable && sortConfig.key === col.accessor && (
+                  <span>{sortConfig.direction === "asc" ? "↑" : "↓"}</span>
+                )}
+              </div>
+            ),
+          }))}
           data={paginatedUsers?.map((user) => ({
             id: String(user.id),
             name: user.name,
             email: user.email,
             username: user.username,
             action: (
-              <Button
-                variant="outline"
-                className="
-    text-slate-600  
-    dark:text-slate-300 dark:border-slate-300
-    hover:bg-slate-600 hover:text-white
-    rounded-md p-1 
-    transition-all duration-300 ease-in-out 
-    flex items-center gap-2"
-                size={"sm"}
-                onClick={() => handleViewDetail(user)}
-              >
-                <Eye className="w-5 h-5" /> {/* Ikon berukuran standar */}
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="outline"
+                  size={"sm"}
+                  onClick={() => handleViewDetail(user, "view")}
+                >
+                  <Eye className="w-5 h-5" /> {/* Ikon berukuran standar */}
+                </Button>
+                <Button
+                  variant="outline"
+                  size={"sm"}
+                  onClick={() => handleViewDetail(user, "edit")}
+                >
+                  <Pencil className="w-5 h-5" /> {/* Ikon berukuran standar */}
+                </Button>
+              </div>
             ),
           }))}
         />

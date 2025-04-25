@@ -10,7 +10,7 @@ import {
 import { JSX } from "react";
 
 type Column<T> = {
-  header: string;
+  header: string | JSX.Element;
   accessor: keyof T | string;
   sortable?: boolean;
 };
@@ -19,28 +19,19 @@ interface DataTableProps<T> {
   columns: Column<T>[];
   data: T[];
   sortConfig?: { key: string; direction: "asc" | "desc" | undefined };
-  onSortChange?: (key: string) => void;
 }
 
 export function DataTable<
   T extends Record<string, string | number | boolean | JSX.Element>
->({ columns, data, sortConfig, onSortChange }: DataTableProps<T>) {
+>({ columns, data }: DataTableProps<T>) {
   return (
     <Table>
       <TableHeader>
         <TableRow>
           {columns.map((col, i) => (
-            <TableHead
-              key={i}
-              onClick={() =>
-                col.sortable && onSortChange?.(col.accessor as string)
-              }
-            >
+            <TableHead key={i} onClick={() => col.sortable}>
               <div className="flex gap-1 items-center cursor-pointer">
                 <span>{col.header}</span>
-                {col.sortable && sortConfig?.key === col.accessor && (
-                  <span>{sortConfig.direction === "asc" ? "↑" : "↓"}</span>
-                )}
               </div>
             </TableHead>
           ))}
