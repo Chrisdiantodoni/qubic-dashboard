@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -12,6 +11,7 @@ interface SearchBarProps {
 }
 
 export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
+  // handling change on search bar
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };

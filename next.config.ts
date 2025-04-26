@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   removeConsole: process.env.NODE_ENV === "production" ? false : true,
+  images: {
+    domains: ["logoipsum.com"],
+  },
   async headers() {
     return [
       {

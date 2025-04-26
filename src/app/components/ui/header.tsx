@@ -9,7 +9,6 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "../../../components/ui/breadcrumb";
-import { ModeToggle } from "../../../components/dark-mode-toggle";
 import { usePathname } from "next/navigation";
 import { startCase } from "lodash";
 
@@ -51,7 +50,6 @@ function Header() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      {/* <ModeToggle /> */}
     </header>
   );
 }

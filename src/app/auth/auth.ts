@@ -1,6 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
-import { createSession } from "./session";
+import { createSession, verifySession } from "./session";
 import { redirect } from "next/navigation";
 
 const mockUser = { username: "testuser", password: "testpass" };
@@ -24,4 +24,9 @@ export async function logoutUser() {
   const cookiesStore = await cookies();
   cookiesStore.delete("session");
   redirect("/login");
+}
+
+export async function getUser() {
+  const response = await verifySession();
+  return { response };
 }
