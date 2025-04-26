@@ -13,16 +13,15 @@ import { PaginationComponent } from "./Pagination";
 import { User } from "@/app/(dashboard)/user/action";
 import { DataTable } from "@/components/data-table";
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Eye, Pencil } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface UserTableProps {
   users: User[];
 }
 
 export default function UserTable({ users }: UserTableProps) {
-  const router = useRouter();
   const [search, setSearch] = useState<string>("");
   const [pageSize, setPageSize] = useState<number>(10); // Default page size
   const [currentPage, setCurrentPage] = useState<number>(1); // Default page 1
@@ -65,13 +64,6 @@ export default function UserTable({ users }: UserTableProps) {
     setCurrentPage(1); // Reset to page 1 when page size changes
   };
 
-  const handleViewDetail = (user: User, type: string) => {
-    if (type == "view") {
-      router.push(`/user/${user.id}`);
-    } else {
-      router.push(`/user/${user.id}/edit`);
-    }
-  };
   const handleSortChange = (column: string) => {
     let direction: "asc" | "desc" = "asc";
 
@@ -158,20 +150,20 @@ export default function UserTable({ users }: UserTableProps) {
             username: user.username,
             action: (
               <div className="flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  size={"sm"}
-                  onClick={() => handleViewDetail(user, "view")}
+                <Link
+                  className={buttonVariants({ variant: "outline", size: "sm" })}
+                  href={`/user/${user.id}`}
+                  prefetch
                 >
-                  <Eye className="w-5 h-5" /> {/* Ikon berukuran standar */}
-                </Button>
-                <Button
-                  variant="outline"
-                  size={"sm"}
-                  onClick={() => handleViewDetail(user, "edit")}
+                  <Eye className="w-5 h-5" />
+                </Link>
+                <Link
+                  className={buttonVariants({ variant: "outline", size: "sm" })}
+                  href={`/user/${user.id}/edit`}
+                  prefetch
                 >
-                  <Pencil className="w-5 h-5" /> {/* Ikon berukuran standar */}
-                </Button>
+                  <Pencil className="w-5 h-5" />
+                </Link>
               </div>
             ),
           }))}

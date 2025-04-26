@@ -33,9 +33,6 @@ type Post = {
   body: string;
 };
 
-// Enable caching
-export const revalidate = 3600; // Cache for 1 hour
-
 export async function GET() {
   try {
     // Parallel fetching of users and posts

@@ -9,27 +9,33 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <>
-      <div className="bg-white shadow-lg rounded-xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6">
-          <h2 className="text-2xl font-bold text-white">User Profile</h2>
+      <div className="bg-white shadow-lg rounded-xl overflow-hidden dark:bg-gray-800">
+        <div className=" bg-blue-500 p-6 dark:bg-gray-700">
+          <h2 className="text-2xl font-bold text-slate-50">User Profile</h2>
         </div>
 
         <div className="p-6 space-y-5">
           <div className="flex items-start">
             <div className="w-1/3">
-              <span className="text-gray-500 font-medium">Name</span>
+              <span className="text-gray-500 dark:text-slate-50 font-medium">
+                Name
+              </span>
             </div>
             <div className="w-2/3">
-              <span className="text-gray-800 font-semibold">{user.name}</span>
+              <span className="text-gray-800 font-semibold dark:text-slate-300">
+                {user.name}
+              </span>
             </div>
           </div>
 
           <div className="flex items-start">
             <div className="w-1/3">
-              <span className="text-gray-500 font-medium">Username</span>
+              <span className="text-gray-500  dark:text-slate-50 font-medium">
+                Username
+              </span>
             </div>
             <div className="w-2/3">
-              <span className="text-gray-800 font-semibold">
+              <span className="text-gray-800 font-semibold dark:text-slate-300">
                 @{user.username}
               </span>
             </div>
@@ -37,12 +43,14 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
 
           <div className="flex items-start">
             <div className="w-1/3">
-              <span className="text-gray-500 font-medium">Email</span>
+              <span className="text-gray-500  dark:text-slate-50 font-medium">
+                Email
+              </span>
             </div>
             <div className="w-2/3">
               <a
                 href={`mailto:${user.email}`}
-                className="text-blue-600 hover:underline"
+                className="text-blue-600 hover:underline dark:text-slate-300"
               >
                 {user.email}
               </a>
@@ -51,12 +59,14 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
 
           <div className="flex items-start">
             <div className="w-1/3">
-              <span className="text-gray-500 font-medium">Phone</span>
+              <span className="text-gray-500  dark:text-slate-50 font-medium">
+                Phone
+              </span>
             </div>
             <div className="w-2/3">
               <a
                 href={`tel:${user.phone}`}
-                className="text-gray-800 hover:text-blue-600"
+                className="text-gray-800 hover:text-blue-600 hover:dark:text-blue-300 dark:text-slate-300"
               >
                 {user.phone || <span className="text-gray-400">N/A</span>}
               </a>
@@ -65,7 +75,9 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
 
           <div className="flex items-start">
             <div className="w-1/3">
-              <span className="text-gray-500 font-medium">Website</span>
+              <span className="text-gray-500 font-medium  dark:text-slate-50">
+                Website
+              </span>
             </div>
             <div className="w-2/3">
               {user.website ? (
@@ -73,7 +85,7 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
                   href={`https://${user.website}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline flex items-center"
+                  className="text-blue-600 dark:text-blue-400 hover:underline flex items-center"
                 >
                   {user.website}
                   <svg
@@ -99,17 +111,17 @@ async function UserProfile({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         {user.address && (
-          <div className="border-t border-gray-100 p-6 bg-gray-50 rounded-b-xl">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3">
+          <div className="border-t border-gray-100 p-6 bg-gray-50 rounded-b-xl dark:bg-gray-800 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3 dark:text-slate-50">
               Address
             </h3>
-            <div className="space-y-2 text-gray-600">
+            <div className="space-y-2 text-gray-600 dark:text-slate-300">
               <p>{user.address.street}</p>
               <p>{user.address.suite}</p>
               <p>
                 {user.address.city}, {user.address.zipcode}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-slate-300">
                 {user.address.geo.lat}, {user.address.geo.lng}
               </p>
             </div>

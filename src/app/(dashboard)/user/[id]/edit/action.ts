@@ -19,7 +19,9 @@ export async function fetchUserWithPosts(userId: string) {
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
   const baseUrl = `${protocol}://${host}`;
 
-  const res = await fetch(`${baseUrl}/api/users-posts`);
+  const res = await fetch(`${baseUrl}/api/users-posts`, {
+    next: { revalidate: 60 },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");
