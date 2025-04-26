@@ -14,10 +14,10 @@ export async function loginUser({
 }) {
   if (username === mockUser.username && password === mockUser.password) {
     await createSession(username);
-    return { message: "Login Success" };
+    return { message: "Login Success", success: true };
   }
 
-  return { message: "Invalid credentials" };
+  return { message: "Invalid credentials", success: false };
 }
 
 export async function logoutUser() {

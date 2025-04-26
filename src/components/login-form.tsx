@@ -13,10 +13,11 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import { toast } from "sonner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginUser } from "@/app/auth/auth";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 const schema = yup.object({
   username: yup.string().min(3).max(10).required("Username is required"),
   password: yup.string().min(8).max(100).required("Password is required"),
@@ -31,6 +32,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -38,16 +40,33 @@ export function LoginForm({
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const handleLogin = async (data: FormData) => {
-    setIsLoading(true);
-    const res = await loginUser(data);
-    setIsLoading(false);
-    toast(res?.message);
+
+  const { mutate, isPending: isLoading } = useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await loginUser(data);
+      return response;
+    },
+    onSuccess: (res) => {
+      if (res?.success) {
+        toast.success(res?.message);
+        router.replace("/dashboard");
+      } else {
+        toast.error(res.message);
+      }
+    },
+    onError: (res) => {
+      toast.error(res?.message);
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    mutate(data);
   };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <button onClick={() => toast.success("Toast")}>Render Toast</button>
+
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -56,7 +75,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(handleLogin)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
@@ -91,7 +110,6 @@ export function LoginForm({
                   </span>
                 )}
               </div>
-
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (

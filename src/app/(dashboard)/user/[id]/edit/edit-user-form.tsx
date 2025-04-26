@@ -19,11 +19,7 @@ const schema = yup.object({
   username: yup.string().required("Username is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   phone: yup.string().required("Phone is required"),
-  website: yup
-    .string()
-    .transform((value) => (value === "" ? null : value))
-    .nullable()
-    .url("Please enter a valid URL (e.g. https://example.com)"),
+  website: yup.string().nullable(),
 
   // Address
   address: yup.object({
@@ -66,10 +62,10 @@ export default function EditUserForm({ user }: EditUserProps) {
       console.log(JSON.stringify(data));
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      toast("User Saved!!");
+      toast.success("User Saved!!");
     } catch (error) {
       console.log(error);
-      toast("Failed to Save User");
+      toast.error("Failed to Save User");
     }
   };
 
@@ -233,7 +229,7 @@ export default function EditUserForm({ user }: EditUserProps) {
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-4">
+      <div className="flex justify-start gap-4">
         <Button type="button" variant="outline">
           Cancel
         </Button>

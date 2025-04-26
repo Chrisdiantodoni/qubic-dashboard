@@ -16,7 +16,6 @@ export default async function Page() {
       </div>
     );
   } catch (error) {
-    console.log(error);
     return (
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-6">Something went wrong</h1>

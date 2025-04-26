@@ -39,9 +39,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster richColors />
             <DarkModeToggle />
           </ThemeProvider>
-          <Toaster />
         </Providers>
       </body>
     </html>

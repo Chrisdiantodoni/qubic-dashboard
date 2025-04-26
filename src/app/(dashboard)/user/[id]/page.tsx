@@ -140,12 +140,25 @@ export default async function page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">User Detail</h1>
-      <Suspense fallback={<UserLoadingSkeleton />}>
-        <UserProfile params={params} />
-      </Suspense>
-    </div>
-  );
+  try {
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-6">User Detail</h1>
+        <Suspense fallback={<UserLoadingSkeleton />}>
+          <UserProfile params={params} />
+        </Suspense>
+      </div>
+    );
+  } catch (error) {
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-6">Something went wrong</h1>
+        <p className="text-red-500">
+          {error instanceof Error
+            ? error.message
+            : "An unexpected error occurred."}
+        </p>
+      </div>
+    );
+  }
 }

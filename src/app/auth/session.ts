@@ -38,8 +38,6 @@ export async function createSession(username: string) {
     sameSite: "lax",
     path: "/",
   });
-
-  redirect("/dashboard");
 }
 
 export async function verifySession() {
