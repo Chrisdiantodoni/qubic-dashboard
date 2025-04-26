@@ -1,4 +1,3 @@
-// app/components/ui/UserFormSkeleton.tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function UserFormSkeleton() {

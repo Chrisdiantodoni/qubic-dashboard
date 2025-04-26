@@ -13,7 +13,6 @@ interface User {
   name: string;
   username: string;
 }
-// lib/api.ts
 export async function fetchUserWithPosts(userId: string) {
   const host = (await headers()).get("host");
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";

@@ -63,7 +63,7 @@ export default function EditUserForm({ user }: EditUserProps) {
   const onSubmit = async (data: yup.InferType<typeof schema>) => {
     try {
       // Simulate API call
-      window.alert(JSON.stringify(data));
+      console.log(JSON.stringify(data));
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       toast("User Saved!!");

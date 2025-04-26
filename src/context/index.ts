@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-// Definisi tipe untuk state sidebar
+// initial state type
 interface ZustandState {
   expanded: boolean;
   handle?: (
@@ -9,12 +9,12 @@ interface ZustandState {
   ) => void;
 }
 
-// State awal
+// initial state
 const initialState: ZustandState = {
   expanded: true,
 };
 
-// Membuat store Zustand dengan tipe yang lebih jelas
+// Make zustand state more concise and clear
 const createStore = create<ZustandState>((set) => ({
   ...initialState,
   handle: (name, value) =>
