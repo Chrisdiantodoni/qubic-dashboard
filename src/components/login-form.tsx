@@ -65,8 +65,6 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <button onClick={() => toast.success("Toast")}>Render Toast</button>
-
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
