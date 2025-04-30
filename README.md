@@ -36,3 +36,29 @@ git clone https://github.com/your-username/qubic-dashboard.git
 cd qubic-dashboard
 npm install
 ```
+
+## 🛠️ Development
+
+Start the development server:
+
+bash
+Copy
+Edit
+npm run dev
+Then open <http://localhost:3000> in your browser.
+
+Folder Structure
+
+- app/ – Routing and layouts (Next.js App Router)
+
+- components/ – Reusable UI components
+
+- hooks/ – Custom React hooks
+
+- store/ – Zustand state management
+
+- lib/ – Utilities (e.g. auth, API helpers)
+
+- types/ – TypeScript interfaces and types
+
+- schemas/ – Yup validation schemas
