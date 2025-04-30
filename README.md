@@ -62,3 +62,23 @@ Folder Structure
 - types/ – TypeScript interfaces and types
 
 - schemas/ – Yup validation schemas
+
+## 🌐 Deployment on Vercel
+
+This project is fully compatible with Vercel. To deploy:
+
+1. Push your code to a GitHub/GitLab/Bitbucket repository.
+
+2. Go to vercel.com and sign in.
+
+3. Click "Add New Project" and import your repository.
+
+4. Vercel will detect the Next.js framework automatically.
+
+5. Set the following environment variables in the Vercel project settings.
+
+# JWT secret for encoding/decoding user tokens
+
+JWT_SECRET=your-secret-key
+
+6. Click Deploy, and Vercel will handle the rest (build, optimize, and deploy your app).
