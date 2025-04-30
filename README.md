@@ -77,8 +77,10 @@ This project is fully compatible with Vercel. To deploy:
 
 5. Set the following environment variables in the Vercel project settings.
 
-# JWT secret for encoding/decoding user tokens
+JWT secret for encoding/decoding user tokens
 
+```bash
 JWT_SECRET=your-secret-key
+```
 
 6. Click Deploy, and Vercel will handle the rest (build, optimize, and deploy your app).
